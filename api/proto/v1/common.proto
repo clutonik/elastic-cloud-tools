@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+
+option go_package = "pkg/api/v1";
+
+// Date is re-usable message type which allows various other types to have date type fields.
+message Date {
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
+}
