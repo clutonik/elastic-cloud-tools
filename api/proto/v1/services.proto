@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "api/proto/v1/cluster.proto";
+
+option go_package = "pkg/api/v1";
+
+service ClusterService {
+  rpc Ping(PingRequest) returns (PingResponse) {};
+}

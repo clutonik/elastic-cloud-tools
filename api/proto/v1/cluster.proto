@@ -1,7 +1,7 @@
 // Using proto3 as protobuf version
 syntax = "proto3";
 
-import "proto/v1/common.proto";
+import "api/proto/v1/common.proto";
 
 option go_package = "pkg/api/v1";
 
@@ -9,11 +9,6 @@ option go_package = "pkg/api/v1";
  * If no value is specified for a specific field, its zero value will be used.
  */
 message Cluster {
-  string cluster_address = 1; // Elasticsearch cluster URL
-  string user_name = 2; // Username of the user used to connect to cluster
-  string password = 3; // Password of the user used to connect to cluster
-  bool exists = 4; // Boolean value to represent cluster presence
-
   // Currently supported Deployment Templates to be used for an elasticsearch cluster
   enum DeploymentTemplate {
     DEFAULT = 0;
@@ -25,7 +20,23 @@ message Cluster {
     OPTIMIZED_HOT_WARM_COLD = 6;
   }
 
-  DeploymentTemplate deployment_template = 5; // Deployment Template of the cluster using enum defined above
-  Date creation_date = 6; // Date when the cluster was created using date type from common package
-  repeated string support_emails = 7; // List of support team emails.
+  message Config{
+    string cluster_address = 1; // Elasticsearch cluster URL
+    string user_name = 2; // Username of the user used to connect to cluster
+    string password = 3; // Password of the user used to connect to cluster
+    DeploymentTemplate deployment_template = 4; // Deployment Template of the cluster using enum defined above
+  }
+
+  bool exists = 1; // Boolean value to represent cluster presence
+  Date creation_date = 2; // Date when the cluster was created using date type from common package
+  Config config = 3;
+  repeated string support_emails = 4; // List of support team emails.
+}
+
+message PingRequest{
+  Cluster.Config config = 1;
+}
+
+message PingResponse{
+  string result = 1;
 }
